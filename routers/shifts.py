@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
+from datetime import date
 
 from schemas.shift import ShiftCreate, ShiftUpdate, ShiftResponse
 from services import shift_services
@@ -17,6 +18,10 @@ def create_shift(shift_in: ShiftCreate, db: Session = Depends(get_db), current_u
 @router.get("/shifts", response_model=list[ShiftResponse])
 def get_all_shifts(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     return shift_services.get_all_shifts(db)
+
+@router.get("/shifts/by-date", response_model=list[ShiftResponse])
+def get_shift_by_date(start_date: date, end_date: date, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    return shift_services.get_shift_by_date_range(db, start_date, end_date)
 
 @router.get("/shifts/{id}", response_model=ShiftResponse)
 def get_shifts_by_id(id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):

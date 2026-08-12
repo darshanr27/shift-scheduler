@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.shift import Shift
 from schemas.shift import ShiftCreate, ShiftUpdate
+from datetime import date
 
 def create_shift(db: Session, shift_in: ShiftCreate, user_id: int):
     shift = Shift(
@@ -55,3 +56,9 @@ def delete_shift(db: Session, id: int):
     db.commit()
 
     return "Successfully deleted"
+
+def get_shift_by_date_range(db: Session, start_date: date, end_date: date):
+    return db.query(Shift).filter(
+        Shift.shift_date >= start_date,
+        Shift.shift_date <= end_date
+    ).all()

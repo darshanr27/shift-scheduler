@@ -5,6 +5,10 @@ from models.shift import Shift
 from models.user import User
 
 def assign(db: Session, shift_id: int, user_id: int):
+    existing = db.query(Assignment).filter(Assignment.shift_id == shift_id, Assignment.user_id == user_id).first()
+    if existing:
+        raise HTTPException(status_code=409, detail="Staff already assigned to this shift")
+    
     shift = db.query(Shift).filter(Shift.id == shift_id).first()
     user = db.query(User).filter(User.id == user_id).first()
     if not shift:

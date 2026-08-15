@@ -33,8 +33,8 @@ def export_shifts(db: Session = Depends(get_db), current_user = Depends(get_curr
             user.last_name,
             shift.shift_date,
             shift.facility_name,
-            shift.start_time,
-            shift.end_time,
+            shift.start_time.strftime("%H:%M:%S"),
+            shift.end_time.strftime("%H:%M:%S"),
             assignment.is_active
         ])
     output.seek(0)

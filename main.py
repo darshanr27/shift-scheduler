@@ -12,6 +12,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
+        "https://shift-scheduler-bice.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

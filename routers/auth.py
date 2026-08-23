@@ -4,9 +4,13 @@ from datetime import datetime, timezone
 from database import get_db
 from schemas.user import UserCreate, UserResponse, LoginSchema
 from models.user import User
-from services.auth_service import hash_password, verify_password, create_access_token, get_user_by_email
+from services.auth_service import hash_password, verify_password, create_access_token, get_user_by_email, get_current_user
 
 router = APIRouter()
+
+@router.get("/auth/me", response_model = UserResponse)
+def get_me(current_user = Depends(get_current_user)):
+    return current_user
 
 @router.post("/auth/signup", response_model=UserResponse)
 def sign_up(user: UserCreate, db: Session = Depends(get_db)):

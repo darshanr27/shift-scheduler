@@ -195,6 +195,20 @@ Frontend runs at `http://localhost:5173`
 
 ---
 
+## CI/CD
+
+This project uses GitHub Actions for continuous integration and deployment.
+
+**Pipeline triggers on every push to `main`:**
+1. Spins up Python 3.12 environment
+2. Installs dependencies
+3. Runs tests
+4. On success — triggers auto deploy to Render via deploy hook
+
+**Workflow file:** `.github/workflows/ci.yml`
+
+---
+
 ## Database Migrations
 
 ```bash
